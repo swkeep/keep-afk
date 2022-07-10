@@ -41,7 +41,12 @@ end
 function Player:afk_notification(citizenid)
     for _, time in pairs(Config.settings.notifications) do
         if self.data[citizenid].afk_timer == time then
-            local msg = 'You are AFK and will be kicked in ' .. math.ceil(time / 60) .. ' minutes!'
+            local msg = ''
+            if time < 60 then
+                msg = 'You are AFK and will be kicked in ' .. time .. ' seconds!'
+            else
+                msg = 'You are AFK and will be kicked in ' .. math.ceil(time / 60) .. ' minutes!'
+            end
             TriggerClientEvent('QBCore:Notify', self.data[citizenid].source, msg, "error")
             return true
         end
